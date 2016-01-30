@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="freedom" size="3.000000 3.000000" />
+    <ImageTarget name="flag" size="3.000000 3.000000" />
+    <ImageTarget name="squiggle" size="3.000000 3.000000" />
+    <ImageTarget name="0neDiamond" size="3.000000 3.000000" />
+    <ImageTarget name="2dots" size="3.000000 3.000000" />
+    <ImageTarget name="2sq" size="3.000000 3.000000" />
+    <ImageTarget name="oneBar" size="3.000000 2.836502" />
+    <ImageTarget name="Dot" size="3.000000 3.014313" />
+    <ImageTarget name="star" size="3.000000 3.755020" />
     <ImageTarget name="6" size="1.000000 1.000000" />
     <ImageTarget name="5" size="1.000000 1.000000" />
     <ImageTarget name="4" size="1.000000 1.000000" />
