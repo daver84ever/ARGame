@@ -21,6 +21,8 @@ namespace Vuforia
                                                 ITrackableEventHandler
     {
 
+		[SerializeField] LayerMask InteractionLayer;
+		int InteractionLayerIndex;
 
 		public Action<DiceImageType> TargetFoundCallback;
 		public Action<DiceImageType> TargetLostCallback;
@@ -36,9 +38,11 @@ namespace Vuforia
 
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
-    
+    	
         void Start()
         {
+			InteractionLayerIndex = LayerMask.NameToLayer (InteractionLayer.ToString());
+
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
             if (mTrackableBehaviour)
             {
@@ -106,22 +110,28 @@ namespace Vuforia
 
         private void OnTrackingLost()
         {
-			/*
+			
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
 
             // Disable rendering:
             foreach (Renderer component in rendererComponents)
             {
-                component.enabled = false;
+				//if (component.gameObject.layer == InteractionLayerIndex) {
+					Debug.Log ("Shut off "+component.gameObject.name);
+					component.enabled = false;
+				//}
             }
 
             // Disable colliders:
             foreach (Collider component in colliderComponents)
             {
-                component.enabled = false;
+				//if (component.gameObject.layer == InteractionLayerIndex) {
+					component.enabled = false;
+				//}
             }
-			*/
+
+
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
 
 			if (TargetLostCallback != null) {
