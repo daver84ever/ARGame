@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="6" size="1.000000 1.000000" />
+    <ImageTarget name="5" size="1.000000 1.000000" />
+    <ImageTarget name="4" size="1.000000 1.000000" />
+    <ImageTarget name="3" size="1.000000 1.000000" />
+    <ImageTarget name="2" size="1.000000 1.000000" />
+    <ImageTarget name="1" size="1.000000 1.000000" />
+    <ImageTarget name="PostCardbackJPG2" size="3.000000 4.500000" />
+    <ImageTarget name="Postcard-JPG2" size="75.000000 112.500000" />
+  </Tracking>
+</QCARConfig>
