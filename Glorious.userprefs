@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/CenterARMonitor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/readme_SDK.txt">
     <Files>
-      <File FileName="Assets/CenterARMonitor.cs" Line="31" Column="3" />
+      <File FileName="Assets/CenterARMonitor.cs" Line="46" Column="5" />
       <File FileName="Assets/Plugins/Editor/Unzip.js" Line="1" Column="1" />
+      <File FileName="Assets/readme_SDK.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

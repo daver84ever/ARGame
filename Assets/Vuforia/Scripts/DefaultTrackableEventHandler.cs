@@ -5,15 +5,28 @@ Confidential and Proprietary - Qualcomm Connected Experiences, Inc.
 ==============================================================================*/
 
 using UnityEngine;
+using System.Collections;
+using System;
+
+public enum DiceImageType { FROG, GHOST, CRAB, CAT, EVILPUMPKIN, BUNNY, UNKOWN }
 
 namespace Vuforia
 {
+
+
     /// <summary>
     /// A custom handler that implements the ITrackableEventHandler interface.
     /// </summary>
     public class DefaultTrackableEventHandler : MonoBehaviour,
                                                 ITrackableEventHandler
     {
+
+
+		public Action<DiceImageType> TargetFoundCallback;
+		public Action<DiceImageType> TargetLostCallback;
+
+		[SerializeField] DiceImageType CurrentDiceImage;
+
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
@@ -84,11 +97,16 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+
+			if(TargetFoundCallback !=null){
+				TargetFoundCallback (CurrentDiceImage);
+			}
         }
 
 
         private void OnTrackingLost()
         {
+			/*
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
 
@@ -103,8 +121,13 @@ namespace Vuforia
             {
                 component.enabled = false;
             }
-
+			*/
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+
+			if (TargetLostCallback != null) {
+				TargetLostCallback (CurrentDiceImage);
+			}
+
         }
 
         #endregion // PRIVATE_METHODS
