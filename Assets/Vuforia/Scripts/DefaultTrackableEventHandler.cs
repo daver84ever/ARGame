@@ -30,7 +30,7 @@ namespace Vuforia
 		public Action<DiceId> TargetFoundCallback;
 		public Action<DiceId> TargetLostCallback;
 
-		[SerializeField] DiceImageType CurrentDiceImage;
+		public DiceImageType CurrentDiceImage;
 
 		public int MarkerID { get { return Marker.Marker.MarkerID; }}
 		public MarkerBehaviour MarkerBehaviour { get { return Marker; }}
@@ -47,6 +47,7 @@ namespace Vuforia
     	
         void Start()
         {
+			CurrentDiceImage = (DiceImageType) (MarkerID % 6);
 			InteractionLayerIndex = LayerMask.NameToLayer (InteractionLayer.ToString());
 
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
