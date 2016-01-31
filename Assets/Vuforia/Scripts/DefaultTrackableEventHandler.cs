@@ -105,9 +105,8 @@ namespace Vuforia
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
             {
-				if(component.gameObject.tag == "Touch"){
-                	component.enabled = true;
-				}
+               	component.enabled = true;
+			
             }
 
             // Enable colliders:
