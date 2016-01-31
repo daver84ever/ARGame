@@ -3,7 +3,7 @@ using System.Collections;
 using Vuforia;
 
 public class CubeFX : MonoBehaviour {
-
+	/*
 	DefaultTrackableEventHandler eventer;
 
 	void Awake(){
@@ -11,6 +11,7 @@ public class CubeFX : MonoBehaviour {
 		eventer.TargetFoundCallback = (s)=>{OnDetectedCube();};
 		eventer.TargetLostCallback = (s)=>{OnLoseCube();};
 	}
+
 
 	public void OnDetectedCube(){
 	}
@@ -21,5 +22,6 @@ public class CubeFX : MonoBehaviour {
 
 	public void OnLoseCube(){
 	}
+	*/
 
 }
