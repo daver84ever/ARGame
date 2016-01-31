@@ -9,7 +9,7 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 	public bool displayDebugText = true;
 	public Text displayText;
 	public DefaultTrackableEventHandler[] trackingEventHandlers;
-	public Dictionary<DiceId, bool> currentlyTracking; 
+	private Dictionary<int,DiceId> currentlyTracking; 
 
 	public Action<DiceId> OnGlobalTargetFoundCallback;
 	public Action<DiceId> OnGlobalTargetLostCallback;
@@ -22,20 +22,94 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 
 		}
 
-		currentlyTracking = new Dictionary<DiceId, bool>  ();
+		currentlyTracking = new Dictionary<int,DiceId>  ();
 	}
 
 	public void SetTrackableMarkers(bool value){
 		for(int i=0; i<trackingEventHandlers.Length; i++){
 			trackingEventHandlers [i].enabled = value;
+			trackingEventHandlers [i].MarkerBehaviour.enabled = value;
+		}
+
+	}
+
+	public DefaultTrackableEventHandler FindMarkerObject(int markerID){
+		for(int i=0; i<trackingEventHandlers.Length; i++){
+			if (trackingEventHandlers [i].MarkerID == markerID) {
+				return trackingEventHandlers [i];
+			}
+		}
+
+		return null;
+	}
+
+	public void OnTargetFound(DiceId found){
+		if (OnGlobalTargetFoundCallback != null) {
+			OnGlobalTargetFoundCallback (found);
+		}
+		Debug.Log ("OnTargetFound "+found.ToString());
+
+		//if we already tracking the dice (compare markers to determine the best match [i.e. the marker on top])
+		if (currentlyTracking.ContainsKey (found.diceIdx)) {
+			//yes we do a quick search every time we find a new marker already in the system (we could optimize this search by caching or passing in the refs)
+			DefaultTrackableEventHandler newlyFoundMarkerObj = FindMarkerObject (found.diceIdx);
+			DefaultTrackableEventHandler alreadyCachedMarkerObj = FindMarkerObject (currentlyTracking [found.diceIdx].markerId);
+
+			if(newlyFoundMarkerObj.MarkerID == alreadyCachedMarkerObj.MarkerID){
+				Debug.LogError ("We are treating a marker we already found and cached as a new marker never seen before... ERROR. This is a sanity check.");
+			} else {
+
+				//udpate the found image we are tracking for a give die
+				//FOR THE MOMENT NEW ONE ALWAYS WINS//
+				currentlyTracking[found.diceIdx] = found;
+				Debug.Log ("Update die[" + found.diceIdx + "] w/ "+found.type);
+			}
+				
+		//if we are not tracking the die yet just ad it to the tracking dictionary
+		} else {
+			currentlyTracking.Add (found.diceIdx, found);
+		}
+
+		if(displayDebugText){
+			UpdateDebugText ();
 		}
 	}
 
-	//List<TouchMarker>
-	// Update is called once per frame
-	void Update () {
-		//not using touch controls this way//
-		/*
+	public void OnTargetLost(DiceId lost){
+		if (OnGlobalTargetLostCallback != null) {
+			OnGlobalTargetLostCallback (lost);
+		}
+		Debug.Log ("OnTargetLost "+lost.ToString());
+
+		if (currentlyTracking.ContainsKey (lost.diceIdx)) {
+			currentlyTracking.Remove (lost.diceIdx);
+		} else {
+			Debug.LogWarning ("weirdly doesnt contain  "+lost.ToString()+" as a tracked marker");
+
+		}
+
+		if(displayDebugText){
+			UpdateDebugText ();
+		}
+	}
+
+	public void UpdateDebugText(){
+		string output = "\n";
+		foreach(DiceId diceId in currentlyTracking.Values){
+			//output += diceId.type + "," + diceId.diceIdx +"\n";
+			output += "Die["+diceId.diceIdx + "] shows a " + diceId.type +"\n";
+		}
+		displayText.text = output;
+		Debug.Log (output);
+	}
+		
+}
+
+//List<TouchMarker>
+// Update is called once per frame
+//void Update () {
+//not using touch controls this way//
+/*
 		for (var i = 0; i < Input.touchCount; ++i) {
 			if (Input.GetTouch(i).phase == TouchPhase.Began ||Input.GetTouch(i).phase == TouchPhase.Moved  ) {
 
@@ -68,47 +142,4 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 			}
 		}
 		*/
-	}
-
-	public void OnTargetFound(DiceId found){
-		if (OnGlobalTargetFoundCallback != null) {
-			OnGlobalTargetFoundCallback (found);
-		}
-		Debug.Log ("OnTargetFound "+found.ToString());
-
-		currentlyTracking.Add (found, true);
-
-
-
-		if(displayDebugText){
-			UpdateDebugText ();
-		}
-	}
-
-	public void OnTargetLost(DiceId lost){
-		if (OnGlobalTargetLostCallback != null) {
-			OnGlobalTargetLostCallback (lost);
-		}
-		Debug.Log ("OnTargetLost "+lost.ToString());
-
-		if (currentlyTracking.ContainsKey (lost)) {
-			currentlyTracking.Remove (lost);
-		} else {
-			Debug.LogWarning ("weirdly doesnt contain  "+lost.ToString()+" as a tracked marker");
-
-		}
-
-		if(displayDebugText){
-			UpdateDebugText ();
-		}
-	}
-
-	public void UpdateDebugText(){
-		string output = "";
-		foreach(DiceId diceId in currentlyTracking.Keys){
-			output += diceId.type + "," + diceId.diceIdx +"\n";
-		}
-		displayText.text = output;
-		Debug.Log (output);
-	}
-}
+//}

@@ -11,6 +11,7 @@ using System;
 public struct DiceId {
 	public DiceImageType type;
 	public int diceIdx;
+	public int markerId;
 }
 
 namespace Vuforia
@@ -31,6 +32,9 @@ namespace Vuforia
 
 		[SerializeField] DiceImageType CurrentDiceImage;
 
+		public int MarkerID { get { return Marker.Marker.MarkerID; }}
+		public MarkerBehaviour MarkerBehaviour { get { return Marker; }}
+
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
@@ -50,12 +54,18 @@ namespace Vuforia
             {
                 mTrackableBehaviour.RegisterTrackableEventHandler(this);
             }
+
         }
 
         #endregion // UNTIY_MONOBEHAVIOUR_METHODS
 
+		void OnEnable(){
+			Debug.Log ("OnEnabled");
+		}
 
-
+		void OnDisable(){
+			Debug.Log ("OnDisable");
+		}
         #region PUBLIC_METHODS
 
         /// <summary>
@@ -110,7 +120,8 @@ namespace Vuforia
 			if(TargetFoundCallback != null){
 				DiceId diceId = new DiceId(){
 					type = CurrentDiceImage,
-					diceIdx = Marker.Marker.MarkerID / 6
+					diceIdx = Marker.Marker.MarkerID / 6,
+					markerId = Marker.Marker.MarkerID,
 				};
 				TargetFoundCallback (diceId);
 			}
@@ -146,7 +157,8 @@ namespace Vuforia
 			if (TargetLostCallback != null) {
 				DiceId diceId = new DiceId(){
 					type = CurrentDiceImage,
-					diceIdx = Marker.Marker.MarkerID / 6
+					diceIdx = Marker.Marker.MarkerID / 6,
+					markerId = Marker.Marker.MarkerID,
 				};
 				TargetLostCallback (diceId);
 			}
