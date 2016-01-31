@@ -62,6 +62,7 @@ public class GameLogic : MonoBehaviour {
 		//give the player some breathing room before we drop the dice cast button//
 		if(currentState == GameState.PLAYER_GUESS)
 		{
+			/*
 			//check if can guess otherwise kick player back to the Instruct state//
 			if (globalTargetFoundHandler.NumberOfTrackedDie () < 4) {
 				useCachedRead = true;
@@ -88,6 +89,10 @@ public class GameLogic : MonoBehaviour {
 				useCachedRead = false;
 
 			}
+			*/
+			if (globalTargetFoundHandler.NumberOfTrackedDie () < 4) {
+				StateChange (GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA);
+			}
 		}
 
 		if(currentState == GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA){
@@ -95,10 +100,14 @@ public class GameLogic : MonoBehaviour {
 			//if so goto Player Guess state//
 			if (globalTargetFoundHandler.NumberOfTrackedDie () == 4) {
 				Debug.Log ("Tracking 4 DiceId in Instruct phase");
+				StateChange (GameState.PLAYER_GUESS);
+
+				/*
 				trackingTimer += Time.deltaTime;
 				if (trackingTimer > delayBeforeMovingToGuessState) {
 					StateChange (GameState.PLAYER_GUESS);
 				}
+				*/
 			} 
 		}
 
@@ -133,6 +142,8 @@ public class GameLogic : MonoBehaviour {
 				
 			break;
 		case GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA:
+			castButton.gameObject.SetActive (false);
+			castButton.enabled = false;
 
 			//reset tracking timer
 			trackingTimer = 0f;
@@ -168,6 +179,8 @@ public class GameLogic : MonoBehaviour {
 			StartCoroutine (NextGameTimer(5f));
 			break;
 		case GameState.TURN_ENDS:
+			globalTargetFoundHandler.SetTrackableMarkers (false);
+
 			//display for a set amount of time
 			InfoText.text = "Pass the phone to the next player.";
 			InfoText.enabled = true;
