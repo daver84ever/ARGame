@@ -24,10 +24,41 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 
 		currentlyTracking = new Dictionary<DiceImageType, int>  ();
 	}
-	
+
+	//List<TouchMarker>
 	// Update is called once per frame
 	void Update () {
-		
+		for (var i = 0; i < Input.touchCount; ++i) {
+			if (Input.GetTouch(i).phase == TouchPhase.Began ||Input.GetTouch(i).phase == TouchPhase.Moved  ) {
+
+				// Construct a ray from the current touch coordinates
+				Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(i).position);
+				// Create a particle if hit
+				RaycastHit hit;
+				if (Physics.Raycast(ray, out hit)){
+					//Instantiate(particle, transform.position, transform.rotation);
+					Debug.Log(hit.transform.parent.name);
+					TouchMarker touchMarker = hit.collider.gameObject.GetComponent<TouchMarker> ();
+					touchMarker.Highlight(true);
+				}
+			}
+				
+
+			//if (Input.GetTouch(i).phase == TouchPhase.Moved) {}
+		}
+
+		if (Input.GetMouseButton (0)) {
+			// Construct a ray from the current touch coordinates
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			// Create a particle if hit
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit)){
+				//Instantiate(particle, transform.position, transform.rotation);
+				Debug.Log(hit.transform.parent.name);
+				TouchMarker touchMarker = hit.collider.gameObject.GetComponent<TouchMarker> ();
+				touchMarker.Highlight(true);
+			}
+		}
 	}
 
 	public void OnTargetFound(DiceImageType found){
