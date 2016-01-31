@@ -9,6 +9,10 @@ using System.Collections;
 using System;
 
 public enum DiceImageType { FROG, GHOST, CRAB, CAT, EVILPUMPKIN, BUNNY, UNKOWN }
+public struct DiceId {
+	public DiceImageType type;
+	public int diceIdx;
+}
 
 namespace Vuforia
 {
@@ -24,8 +28,8 @@ namespace Vuforia
 		[SerializeField] LayerMask InteractionLayer;
 		int InteractionLayerIndex;
 
-		public Action<DiceImageType> TargetFoundCallback;
-		public Action<DiceImageType> TargetLostCallback;
+		public Action<DiceId> TargetFoundCallback;
+		public Action<DiceId> TargetLostCallback;
 
 		[SerializeField] DiceImageType CurrentDiceImage;
 
@@ -102,8 +106,13 @@ namespace Vuforia
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
 
-			if(TargetFoundCallback !=null){
-				TargetFoundCallback (CurrentDiceImage);
+
+			if(TargetFoundCallback != null){
+				DiceId diceId = new DiceId(){
+					type = CurrentDiceImage,
+					diceIdx = Marker.Marker.MarkerID / 6
+				};
+				TargetFoundCallback (diceId);
 			}
         }
 
@@ -135,7 +144,11 @@ namespace Vuforia
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
 
 			if (TargetLostCallback != null) {
-				TargetLostCallback (CurrentDiceImage);
+				DiceId diceId = new DiceId(){
+					type = CurrentDiceImage,
+					diceIdx = Marker.Marker.MarkerID / 6
+				};
+				TargetLostCallback (diceId);
 			}
 
         }

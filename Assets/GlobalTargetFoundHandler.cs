@@ -9,10 +9,10 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 	public bool displayDebugText = true;
 	public Text displayText;
 	public DefaultTrackableEventHandler[] trackingEventHandlers;
-	public Dictionary<DiceImageType, int> currentlyTracking; 
+	public Dictionary<DiceId, bool> currentlyTracking; 
 
-	public Action<DiceImageType> OnGlobalTargetFoundCallback;
-	public Action<DiceImageType> OnGlobalTargetLostCallback;
+	public Action<DiceId> OnGlobalTargetFoundCallback;
+	public Action<DiceId> OnGlobalTargetLostCallback;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,7 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 
 		}
 
-		currentlyTracking = new Dictionary<DiceImageType, int>  ();
+		currentlyTracking = new Dictionary<DiceId, bool>  ();
 	}
 	
 	// Update is called once per frame
@@ -30,17 +30,13 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 		
 	}
 
-	public void OnTargetFound(DiceImageType found){
+	public void OnTargetFound(DiceId found){
 		if (OnGlobalTargetFoundCallback != null) {
 			OnGlobalTargetFoundCallback (found);
 		}
 		Debug.Log ("OnTargetFound "+found.ToString());
 
-		if (currentlyTracking.ContainsKey (found)) {
-			currentlyTracking [found]++;
-		} else {
-			currentlyTracking.Add (found,1);
-		}
+		currentlyTracking.Add (found, true);
 
 
 
@@ -49,18 +45,14 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 		}
 	}
 
-	public void OnTargetLost(DiceImageType lost){
+	public void OnTargetLost(DiceId lost){
 		if (OnGlobalTargetLostCallback != null) {
 			OnGlobalTargetLostCallback (lost);
 		}
 		Debug.Log ("OnTargetLost "+lost.ToString());
 
 		if (currentlyTracking.ContainsKey (lost)) {
-			if (currentlyTracking [lost] < 2) {
-				currentlyTracking.Remove (lost);
-			} else {
-				currentlyTracking [lost]--;
-			}
+			currentlyTracking.Remove (lost);
 		} else {
 			Debug.LogWarning ("weirdly doesnt contain  "+lost.ToString()+" as a tracked marker");
 
@@ -73,8 +65,8 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 
 	public void UpdateDebugText(){
 		string output = "";
-		foreach(KeyValuePair<DiceImageType,int> entry in currentlyTracking){
-			output += entry.Key+","+entry.Value.ToString()+"\n";
+		foreach(DiceId diceId in currentlyTracking.Keys){
+			output += diceId.type + "," + diceId.diceIdx +"\n";
 		}
 		displayText.text = output;
 		Debug.Log (output);
