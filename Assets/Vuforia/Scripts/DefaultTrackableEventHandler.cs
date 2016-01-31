@@ -8,7 +8,6 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public enum DiceImageType { FROG, GHOST, CRAB, CAT, EVILPUMPKIN, BUNNY, UNKOWN }
 public struct DiceId {
 	public DiceImageType type;
 	public int diceIdx;
@@ -16,7 +15,6 @@ public struct DiceId {
 
 namespace Vuforia
 {
-
 
     /// <summary>
     /// A custom handler that implements the ITrackableEventHandler interface.

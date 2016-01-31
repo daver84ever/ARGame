@@ -3,6 +3,15 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum DiceImageType : int { 
+	FROG = 0, 
+	GHOST = 1, 
+	CRAB = 2, 
+	CAT = 3, 
+	BUG = 4, 
+	BUNNY = 5 
+}
+
 public class GameLogic : MonoBehaviour {
 
 	public enum GameState { 
@@ -15,22 +24,16 @@ public class GameLogic : MonoBehaviour {
 		TURN_ENDS,
 	}
 
-	public enum DiceImageType { 
-		FROG = 0, 
-		GHOST = 1, 
-		CRAB = 2, 
-		CAT = 3, 
-		EVILPUMPKIN = 4, 
-		BUNNY = 5 
-	}
-
 	List<DiceImageType> SpellSecret;
 	GameState currentState;
-
 
 	//game refs//
 	public Camera ARcamera;
 	public Button startButton;
+	public GlobalTargetFoundHandler globalTargetFoundHandler;
+
+	//ui refs//
+	public Text InfoText;
 
 	//debug//
 	[SerializeField] Text debugLogicText;
@@ -67,6 +70,7 @@ public class GameLogic : MonoBehaviour {
 		{
 		case GameState.PRESTART:
 			//Player starts/
+			globalTargetFoundHandler.SetTrackableMarkers(false);
 			startButton.gameObject.SetActive(true);
 			break;
 		case GameState.CALCULATING_SPELL:
@@ -80,8 +84,12 @@ public class GameLogic : MonoBehaviour {
 			break;
 		case GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA:
 			//display instructions//
+			InfoText.text = "Cast a spell by rolling the die. " +
+			"Put all the die in the camera frame.";
+			InfoText.enabled = true;
 
 			//turn on ar detection//
+			globalTargetFoundHandler.SetTrackableMarkers(true);
 
 			break;
 		case GameState.PLAYER_GUESS:
@@ -89,8 +97,14 @@ public class GameLogic : MonoBehaviour {
 		case GameState.SHOW_GUESS_RESULTS_WRONG:
 			break;
 		case GameState.SHOW_WINNING_GUESS:
+			InfoText.text = "Well cast! You Win!";
+			InfoText.enabled = true;
 			break;
 		case GameState.TURN_ENDS:
+			//display for a set amount of time
+			InfoText.text = "Pass the phone to the next player.";
+			InfoText.enabled = true;
+			StartCoroutine (PassPhoneTimer(5f));
 			break;
 		default:
 			Debug.LogWarning ("UNKOWN STATE "+toState.ToString());
@@ -112,15 +126,20 @@ public class GameLogic : MonoBehaviour {
 			break;
 		case GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA:
 			//hide display instructions//
-
+			InfoText.text = "";
+			InfoText.enabled = true;
 			break;
 		case GameState.PLAYER_GUESS:
 			break;
 		case GameState.SHOW_GUESS_RESULTS_WRONG:
 			break;
 		case GameState.SHOW_WINNING_GUESS:
+			InfoText.text = "";
+			InfoText.enabled = false;
 			break;
 		case GameState.TURN_ENDS:
+			InfoText.text = "";
+			InfoText.enabled = false;
 			break;
 		default:
 			Debug.LogWarning ("Leaving UNKOWN STATE "+leavingState.ToString());
@@ -150,6 +169,10 @@ public class GameLogic : MonoBehaviour {
 
 	}
 
+	IEnumerator PassPhoneTimer(float waitTime){
+		yield return new WaitForSeconds (waitTime);
+		StateChange (GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA);
+	}
 
 	public void OnStartPress(){
 		StateChange (GameState.CALCULATING_SPELL);

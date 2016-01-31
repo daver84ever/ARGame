@@ -25,9 +25,17 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 		currentlyTracking = new Dictionary<DiceId, bool>  ();
 	}
 
+	public void SetTrackableMarkers(bool value){
+		for(int i=0; i<trackingEventHandlers.Length; i++){
+			trackingEventHandlers [i].enabled = value;
+		}
+	}
+
 	//List<TouchMarker>
 	// Update is called once per frame
 	void Update () {
+		//not using touch controls this way//
+		/*
 		for (var i = 0; i < Input.touchCount; ++i) {
 			if (Input.GetTouch(i).phase == TouchPhase.Began ||Input.GetTouch(i).phase == TouchPhase.Moved  ) {
 
@@ -59,6 +67,7 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 				touchMarker.Highlight(true);
 			}
 		}
+		*/
 	}
 
 	public void OnTargetFound(DiceId found){
