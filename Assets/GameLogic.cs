@@ -135,6 +135,9 @@ public class GameLogic : MonoBehaviour {
 			startButton.gameObject.SetActive (false);
 			startButton.enabled = false;
 
+			castButton.gameObject.SetActive (false);
+			castButton.enabled = false;
+
 			SpellSecret = CalculateCorrectSpell ();
 			if (debugGameLogic) {
 				debugLogicText.text = secertSpellStr;
@@ -169,16 +172,20 @@ public class GameLogic : MonoBehaviour {
 		case GameState.SHOW_GUESS_RESULTS_WRONG:
 			castButton.gameObject.SetActive (false);
 			castButton.enabled = false;
+
 			StartCoroutine (NextTurnTimer(4f));
 			break;
 		case GameState.SHOW_WINNING_GUESS:
 			castButton.gameObject.SetActive (false);
 			castButton.enabled = false;
+
 			InfoText.text = "Well cast! You Win!";
 			InfoText.enabled = true;
 			StartCoroutine (NextGameTimer(5f));
 			break;
 		case GameState.TURN_ENDS:
+			castButton.gameObject.SetActive (false);
+			castButton.enabled = false;
 			globalTargetFoundHandler.SetTrackableMarkers (false);
 
 			//display for a set amount of time
@@ -257,6 +264,7 @@ public class GameLogic : MonoBehaviour {
 	IEnumerator CastRoutine(List<DiceId> castGuess){
 		castButton.gameObject.SetActive (false);
 		castButton.enabled = false;
+
 		InfoText.enabled = true;
 		InfoText.text = "Incanting.";
 		yield return new WaitForSeconds (.5f);

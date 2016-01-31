@@ -16,6 +16,7 @@ public class CubeFX : MonoBehaviour {
 	}
 
 	void Update(){
+
 	}
 
 	public void OnLoseCube(){
