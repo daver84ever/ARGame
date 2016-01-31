@@ -42,6 +42,8 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 			currentlyTracking.Add (found,1);
 		}
 
+
+
 		if(displayDebugText){
 			UpdateDebugText ();
 		}
