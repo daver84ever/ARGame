@@ -128,27 +128,27 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 	}
 
 	public static bool CompareCasts(Dictionary<DiceImageType,int> a, Dictionary<DiceImageType,int> b){
-		if(!CompareOnType(a,b,DiceImageType.BUG)){
+		if(!CompareOnType(a,b,DiceImageType.FEATHER)){
 			return false;
 		}
 
-		if(!CompareOnType(a,b,DiceImageType.BUNNY)){
+		if(!CompareOnType(a,b,DiceImageType.CHICKEN)){
 			return false;
 		}
 
-		if(!CompareOnType(a,b,DiceImageType.CAT)){
+		if(!CompareOnType(a,b,DiceImageType.BONE)){
 			return false;
 		}
 
-		if(!CompareOnType(a,b,DiceImageType.CRAB)){
+		if(!CompareOnType(a,b,DiceImageType.DYNAMITE)){
 			return false;
 		}
 
-		if(!CompareOnType(a,b,DiceImageType.FROG)){
+		if(!CompareOnType(a,b,DiceImageType.DIAMOND)){
 			return false;
 		}
 
-		if(!CompareOnType(a,b,DiceImageType.GHOST)){
+		if(!CompareOnType(a,b,DiceImageType.APPLE)){
 			return false;
 		}
 		return true;

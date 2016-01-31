@@ -4,12 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum DiceImageType : int { 
-	FROG = 0, 
-	GHOST = 1, 
-	CRAB = 2, 
-	CAT = 3, 
-	BUG = 4, 
-	BUNNY = 5 
+	FEATHER = 0,
+	CHICKEN = 1,
+	BONE = 2,
+	DYNAMITE = 3,
+	DIAMOND = 4,
+	APPLE = 5
 }
 
 public class GameLogic : MonoBehaviour {
