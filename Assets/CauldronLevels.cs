@@ -26,6 +26,7 @@ public class CauldronLevels : MonoBehaviour {
 
 	public void SetLevel(int level){
 		switch (level) {
+		case 0:
 		case 1:
 			Level1 ();
 			break;
@@ -36,6 +37,7 @@ public class CauldronLevels : MonoBehaviour {
 			Level3 ();
 			break;
 		case 4:
+		case 5:
 			Level4 ();
 			break;
 			

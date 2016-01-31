@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Vuforia;
 
 public enum DiceImageType : int { 
 	FEATHER = 0,
@@ -32,6 +33,7 @@ public class GameLogic : MonoBehaviour {
 	public Button startButton;
 	public Button castButton;
 	public GlobalTargetFoundHandler globalTargetFoundHandler;
+	public CauldronLevels cauldronLevels;
 
 	//ui refs//
 	public Text InfoText;
@@ -231,12 +233,19 @@ public class GameLogic : MonoBehaviour {
 	}
 
 	IEnumerator NextTurnTimer(float waitTime){
+		StartCoroutine (CauldronLevels(waitTime));
 		yield return new WaitForSeconds (waitTime);
 		StateChange (GameState.TURN_ENDS);
 	}
 
+	IEnumerator CauldronLevels(float waitTime){
+		yield return new WaitForSeconds (waitTime*.5f);
+		cauldronLevels.SetLevel (0);
+	}
+
 	IEnumerator NextGameTimer(float waitTime){
 		yield return new WaitForSeconds (waitTime);
+		cauldronLevels.SetLevel (0);
 		StateChange (GameState.PRESTART);
 	}
 
@@ -265,6 +274,11 @@ public class GameLogic : MonoBehaviour {
 		castButton.gameObject.SetActive (false);
 		castButton.enabled = false;
 
+		foreach(DiceId dice in castGuess){
+			DefaultTrackableEventHandler marker = globalTargetFoundHandler.FindMarkerObject (dice.markerId);
+			marker.GetComponentInChildren<ModelController> ().FadeIn ();
+		}
+
 		InfoText.enabled = true;
 		InfoText.text = "Incanting.";
 		yield return new WaitForSeconds (.5f);
@@ -278,6 +292,11 @@ public class GameLogic : MonoBehaviour {
 		yield return new WaitForSeconds (.5f);
 		InfoText.text = "Incanting......";
 
+		foreach(DiceId dice in castGuess){
+			DefaultTrackableEventHandler marker = globalTargetFoundHandler.FindMarkerObject (dice.markerId);
+			marker.GetComponentInChildren<ModelController> ().FadeOut ();
+		}
+
 		int correctness;
 		if(CorrectCastCheck (castGuess, out correctness)){
 			StateChange (GameState.SHOW_WINNING_GUESS);
@@ -286,7 +305,9 @@ public class GameLogic : MonoBehaviour {
 			StateChange (GameState.SHOW_GUESS_RESULTS_WRONG);
 			Correctness = correctness;
 			InfoText.text = "You Got "+correctness+" out of 4 right.";
+
 		}
+		cauldronLevels.SetLevel (correctness);
 	}
 
 	bool CorrectCastCheck(List<DiceId> castGuess, out int correctness){

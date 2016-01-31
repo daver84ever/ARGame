@@ -6,11 +6,13 @@ public class ModelController : MonoBehaviour {
 	public GameObject prefab;
 	private ScaleSpring sspring;
 	private LocalPositionSpring posspring;
+	public Vector3 scale = new Vector3(5f,5f,5f);
+	public Vector3 pos = new Vector3 (0f, .5f, .0f);
 
 	void Awake(){
 		var g = Instantiate (prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		g.transform.SetParentZeroed (this.transform);
-		g.transform.localScale = new Vector3 (5f, 5f, 5f);
+		g.transform.localScale = scale;
 		g.transform.localPosition = new Vector3 (0f, .5f, 0f);
 		sspring = GetComponent<ScaleSpring> ();
 		sspring.target = Vector3.zero;

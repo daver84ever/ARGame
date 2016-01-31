@@ -32,7 +32,11 @@ namespace Vuforia
 
 		public DiceImageType CurrentDiceImage;
 
-		public int MarkerID { get { return Marker.Marker.MarkerID; }}
+		public int MarkerID { get { Debug.Log ("Get Marker ID");
+				Debug.Log (Marker);
+				Debug.Log (Marker.Marker);
+				Debug.Log (Marker.Marker.MarkerID);
+				return Marker.Marker.MarkerID; }}
 		public MarkerBehaviour MarkerBehaviour { get { return Marker; }}
 
         #region PRIVATE_MEMBER_VARIABLES
