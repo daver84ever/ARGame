@@ -50,6 +50,7 @@ public class GameLogic : MonoBehaviour {
 	[SerializeField] float delayBeforeMovingLeavingGuessState = 3.5f;
 
 	List<DiceId> cachedTrackedDice;
+	bool useCachedRead = false;
 	float trackingTimer = 0f;
 	void Update () {
 
@@ -63,8 +64,14 @@ public class GameLogic : MonoBehaviour {
 		{
 			//check if can guess otherwise kick player back to the Instruct state//
 			if (globalTargetFoundHandler.NumberOfTrackedDie () < 4) {
+				useCachedRead = true;
 				if (cachedTrackedDice == null) {
 					cachedTrackedDice = globalTargetFoundHandler.GetTrackedDie ();
+					string str = "";
+					foreach(DiceId dice in cachedTrackedDice){
+						str+=dice.type+",";
+					}
+					Debug.LogWarning ("cachedTrackedDice:"+str);
 				}
 
 				//record how long the the dice have be out of focus//
@@ -78,6 +85,8 @@ public class GameLogic : MonoBehaviour {
 					cachedTrackedDice = null;
 				}
 				trackingTimer = 0f;
+				useCachedRead = false;
+
 			}
 		}
 
@@ -138,21 +147,25 @@ public class GameLogic : MonoBehaviour {
 
 			break;
 		case GameState.PLAYER_GUESS:
+			InfoText.text = "";
 
 			//reset tracking timer
 			trackingTimer = 0f;
 			cachedTrackedDice = null;
-			InfoText.text = "";
-			InfoText.enabled = false;
-
 			castButton.gameObject.SetActive (true);
 			castButton.enabled = true;
 			break;
 		case GameState.SHOW_GUESS_RESULTS_WRONG:
+			castButton.gameObject.SetActive (false);
+			castButton.enabled = false;
+			StartCoroutine (NextTurnTimer(4f));
 			break;
 		case GameState.SHOW_WINNING_GUESS:
+			castButton.gameObject.SetActive (false);
+			castButton.enabled = false;
 			InfoText.text = "Well cast! You Win!";
 			InfoText.enabled = true;
+			StartCoroutine (NextGameTimer(5f));
 			break;
 		case GameState.TURN_ENDS:
 			//display for a set amount of time
@@ -197,6 +210,16 @@ public class GameLogic : MonoBehaviour {
 		StateChange (GameState.INSTRUCT_PLAYER_ROLL_AND_POSITION_CAMERA);
 	}
 
+	IEnumerator NextTurnTimer(float waitTime){
+		yield return new WaitForSeconds (waitTime);
+		StateChange (GameState.TURN_ENDS);
+	}
+
+	IEnumerator NextGameTimer(float waitTime){
+		yield return new WaitForSeconds (waitTime);
+		StateChange (GameState.PRESTART);
+	}
+
 	public void OnStartPress(){
 		if(currentState != GameState.PRESTART){
 			return;
@@ -209,12 +232,19 @@ public class GameLogic : MonoBehaviour {
 		if(currentState != GameState.PLAYER_GUESS){
 			return;
 		}
-		Debug.Log ("OnCastPress "+cachedTrackedDice.Count);
-		StartCoroutine(CastRoutine(cachedTrackedDice));
+		if (useCachedRead) {
+			StartCoroutine (CastRoutine (cachedTrackedDice));
+		} else {
+			StartCoroutine(CastRoutine(globalTargetFoundHandler.GetTrackedDie ()));
+		}
+		Debug.Log ("OnCastPress ");
 	}
 
+	int Correctness = 0;
 	IEnumerator CastRoutine(List<DiceId> castGuess){
-		InfoText.enabled = false;
+		castButton.gameObject.SetActive (false);
+		castButton.enabled = false;
+		InfoText.enabled = true;
 		InfoText.text = "Incanting.";
 		yield return new WaitForSeconds (.5f);
 		InfoText.text = "Incanting..";
@@ -227,18 +257,41 @@ public class GameLogic : MonoBehaviour {
 		yield return new WaitForSeconds (.5f);
 		InfoText.text = "Incanting......";
 
-		if(CorrectCastCheck (castGuess)){
+		int correctness;
+		if(CorrectCastCheck (castGuess, out correctness)){
 			StateChange (GameState.SHOW_WINNING_GUESS);
 		} else {
+			
 			StateChange (GameState.SHOW_GUESS_RESULTS_WRONG);
-
+			Correctness = correctness;
+			InfoText.text = "You Got "+correctness+" out of 4 right.";
 		}
 	}
 
-	bool CorrectCastCheck(List<DiceId> castGuess){
+	bool CorrectCastCheck(List<DiceId> castGuess, out int correctness){
+		correctness = 0;
+		List<DiceImageType>  tempSecret = new List<DiceImageType> (SpellSecret);
+		for(int i=0; i<4; i++){
+
+			for(int k=0; k<tempSecret.Count; k++){
+				if (castGuess [i].type == tempSecret [k]) {
+					correctness++;
+					tempSecret.Remove (tempSecret [k]);
+					break;
+				}
+			}
+		}
+
+		if (correctness == 4) {
+			return true;
+		}
+		return false;
+	}
+
+		/*
 		return GlobalTargetFoundHandler.CompareCasts (
 			GlobalTargetFoundHandler.GetDiceTypeCounts(castGuess),
 			GlobalTargetFoundHandler.GetDiceTypeCounts(SpellSecret)
-		);
-	}
+		)
+		*/
 }
