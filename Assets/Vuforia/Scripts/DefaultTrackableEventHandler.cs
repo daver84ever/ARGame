@@ -20,7 +20,7 @@ namespace Vuforia
     public class DefaultTrackableEventHandler : MonoBehaviour,
                                                 ITrackableEventHandler
     {
-
+		[SerializeField] MarkerBehaviour Marker;
 		[SerializeField] LayerMask InteractionLayer;
 		int InteractionLayerIndex;
 
