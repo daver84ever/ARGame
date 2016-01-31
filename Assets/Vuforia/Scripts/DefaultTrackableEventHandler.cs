@@ -59,13 +59,14 @@ namespace Vuforia
 
         #endregion // UNTIY_MONOBEHAVIOUR_METHODS
 
-		void OnEnable(){
-			Debug.Log ("OnEnabled");
-		}
+		//void OnEnable(){
+		//	Debug.Log ("OnEnabled");
+		//}
 
-		void OnDisable(){
-			Debug.Log ("OnDisable");
-		}
+		//void OnDisable(){
+		//	Debug.Log ("OnDisable");
+		//}
+
         #region PUBLIC_METHODS
 
         /// <summary>

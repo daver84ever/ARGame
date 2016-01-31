@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using Vuforia;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GlobalTargetFoundHandler : MonoBehaviour {
 	public bool displayDebugText = true;
@@ -102,7 +103,73 @@ public class GlobalTargetFoundHandler : MonoBehaviour {
 		displayText.text = output;
 		Debug.Log (output);
 	}
-		
+
+
+	public int NumberOfTrackedDie(){
+		return currentlyTracking.Count;
+	}
+
+	public List<DiceId> GetTrackedDie(){
+		return currentlyTracking.Values.ToList();;
+	}
+
+	public static Dictionary<DiceImageType,int> GetDiceTypeCounts(List<DiceId> cast){
+		Dictionary<DiceImageType,int> castDic = new Dictionary<DiceImageType,int> ();
+
+		for(int i=0; i<cast.Count; i++){
+			DiceImageType castType = cast [i].type;
+			if (castDic.ContainsKey (castType)) {
+				castDic [castType]++;
+			} else {
+				castDic.Add (castType,1);
+			}
+		}
+		return castDic;
+	}
+
+	public static bool CompareCasts(Dictionary<DiceImageType,int> a, Dictionary<DiceImageType,int> b){
+		if(!CompareOnType(a,b,DiceImageType.BUG)){
+			return false;
+		}
+
+		if(!CompareOnType(a,b,DiceImageType.BUNNY)){
+			return false;
+		}
+
+		if(!CompareOnType(a,b,DiceImageType.CAT)){
+			return false;
+		}
+
+		if(!CompareOnType(a,b,DiceImageType.CRAB)){
+			return false;
+		}
+
+		if(!CompareOnType(a,b,DiceImageType.FROG)){
+			return false;
+		}
+
+		if(!CompareOnType(a,b,DiceImageType.GHOST)){
+			return false;
+		}
+		return true;
+	}
+
+	static bool CompareOnType(Dictionary<DiceImageType,int> a, Dictionary<DiceImageType,int> b, DiceImageType type ){
+		int a_count = 0;
+		int b_count = 0;
+		if (a.ContainsKey (type)) {
+			a_count = a[type];
+		}
+
+		if (b.ContainsKey (type)) {
+			b_count = b[type];
+		}
+
+		if(a_count == b_count){
+			return true;
+		}
+		return false;
+	}
 }
 
 //List<TouchMarker>
