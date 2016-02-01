@@ -49,8 +49,10 @@ namespace Vuforia
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
     	
-        void Start()
+        IEnumerator Start()
         {
+			yield return new WaitForSeconds (.1f);
+
 			CurrentDiceImage = (DiceImageType) (MarkerID % 6);
 			InteractionLayerIndex = LayerMask.NameToLayer (InteractionLayer.ToString());
 
