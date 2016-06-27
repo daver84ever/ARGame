@@ -4,7 +4,7 @@ AR Dice Game Prototype
 An augmented reality dice game created during the 2016 Global Game Jam.
 
 <b>Goal:</b> <br>
-Try and predict the correct ingredients needed cast your spell. The first player to cast the spell with the correct ingredients wins.
+Try and predict the correct ingredients needed to cast your spell. The first player to cast the spell with the correct ingredients wins.
 
 <b>Supplies</b> <br>
 1. Print out of the Caldron (where the ingredents get added). <br>
