@@ -13,7 +13,7 @@ Try and predict the correct ingredients needed cast your spell. The first player
 
 <b>Rules:</b> <br>
 1. Roll the four dices. <br>
-2. A player points the phone camera at the dices.  The ingredients marker labels glow. The player can re-roll any or all of the four dice once. Then attempt a cast. <br>
+2. A player points the phone camera at the dice.  The ingredients marker labels glow. The player can re-roll any or all of the four dice once. Then attempt a cast. <br>
 3. On a cast - If the player has all four ingredients correct - they fly out of the dice and into the caldron and that player wins. Otherwise pass the phone to the next player. <br>
 4. The next player re-rolls one or more dice (of their choosing) and casts their own spell.  <br>
 5. Repeat until a player has guessed and rolled correctly. <br>
