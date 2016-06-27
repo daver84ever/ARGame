@@ -19,5 +19,14 @@ Try and predict the correct ingredients needed cast your spell. The first player
 5. Repeat until a player has guessed and rolled correctly. <br>
 
 <br>
-Strategy Note: pay attention to the the previous players' guesses. Thats the key to winning. Its sort of like clue where each wrong guess helps eleminate some of the possibilities. 
+Strategy Note: pay attention to the previous players' guesses. That's the key to winning. It's sort of like clue where each wrong guess helps eleminate some of the possibilities. 
+
+<img src="KidWithDice_1.jpg" alt="Roll1" height="200">
+<img src="KidWithDice_2.jpg" alt="Roll2" height="200">
+<img src="KidWithDice_3.jpg" alt="Roll3" height="200">
+<img src="Ingredients.jpg" alt="Ingredients" height="400"><br>
+
+http://globalgamejam.org/2016/games/potions-101-ar-game
+
+
 
