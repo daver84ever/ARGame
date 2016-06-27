@@ -20,7 +20,7 @@ Try and predict the correct ingredients needed cast your spell. The first player
 6. POWER CAST. A player has the option to power cast at the start of their turn. In a power cast they are allowed to change the dice to any ingredients they like and make a cast. If their cast is right they win, but if it's wrong the player is removed from play. So use with caution.  
 
 <br>
-Strategy Note: pay attention to the previous players' guesses. That's the key to winning. It's sort of like clue where each wrong guess helps eleminate some of the possibilities. 
+Strategy Note: pay attention to the previous players' guesses. That's the key to winning. It's sort of like clue where each wrong guess helps eliminate some of the possibilities. 
 
 <img src="KidWithDice_1.jpg" alt="Roll1" height="200">
 <img src="KidWithDice_2.jpg" alt="Roll2" height="200">
