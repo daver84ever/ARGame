@@ -17,6 +17,7 @@ Try and predict the correct ingredients needed cast your spell. The first player
 3. On a cast - If the player has all four ingredients correct - they fly out of the dice and into the caldron and that player wins. Otherwise pass the phone to the next player. <br>
 4. The next player re-rolls one or more dice (of their choosing) and casts their own spell.  <br>
 5. Repeat until a player has guessed and rolled correctly. <br>
+6. POWER CAST. A player has the option to power cast at the start of their turn. In a power cast they are allowed to change the dice to any ingredients they like and make a cast. If their cast is right they win, but if it's wrong the player is removed from play. So use with caution.  
 
 <br>
 Strategy Note: pay attention to the previous players' guesses. That's the key to winning. It's sort of like clue where each wrong guess helps eleminate some of the possibilities. 
